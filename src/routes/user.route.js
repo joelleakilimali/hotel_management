@@ -16,7 +16,7 @@ const route = express.Router();
 route.get("/", async (req, res) => {
   allUser = await getAllUsers();
   console.log(allUser);
-  res.json({ data: allUser, statusCode: 200 });
+  return res.status(200).json({ data: allUser });
 });
 
 /**
@@ -27,13 +27,13 @@ route.get("/", async (req, res) => {
 route.post("/", async (req, res) => {
   body = req.body;
   if (!body) {
-    res.send({ error: "Empty body", statusCode: 400 });
+    return res.status(400).send({ error: "Empty body" });
   }
   if (!body.email) {
-    res.send({ error: "Email is required", statusCode: 400 });
+    return res.status(400).send({ error: "Email is required" });
   }
   user = await createUser(body);
-  res.json({ data: user, statusCode: 201 });
+  return res.status(201).json({ data: user });
 });
 
 /**
@@ -44,7 +44,7 @@ route.post("/", async (req, res) => {
 route.get("/:id", async (req, res) => {
   user_id = req.params.id;
   const user = await getUserById(user_id);
-  res.json({ data: user, statusCode: 200 });
+  return res.status(200).json({ data: user });
 });
 
 /**
@@ -57,6 +57,6 @@ route.put("/:id", async (req, res) => {
   const body = req.body;
   const user_updated = updateUser(user_id, body);
 
-  res.json({ data: user });
+  return res.status(200).json({ data: user });
 });
 module.exports = route;
