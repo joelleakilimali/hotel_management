@@ -15,7 +15,7 @@ const {
 route.post("/", async (req, res) => {
   body = req.body;
   if (!body) {
-    res.send({ error: "Empty body", statusCode: 400 });
+    return res.status(400).send({ error: "Empty body" });
   }
   room = await createReservation(body);
   res.json({ data: room, statusCode: 201 });
@@ -29,7 +29,7 @@ route.post("/", async (req, res) => {
 route.get("/", async (req, res) => {
   allroom = await getRoom_reserved();
   console.log(allroom);
-  res.json({ data: allroom, statusCode: 200 });
+  return res.status(200).json({ data: allroom, statusCode: 200 });
 });
 
 /**
@@ -40,7 +40,7 @@ route.get("/", async (req, res) => {
 route.get("/:id", async (req, res) => {
   room_id = req.params.id;
   const room = await getRoom_reservedbyId(room_id);
-  res.json({ data: room });
+  return res.status(200).json({ data: room });
 });
 /**
  * @description update a reservation
@@ -52,7 +52,7 @@ route.put("/:id", async (req, res) => {
   const body = req.body;
   const room_updated = update_a_reservation(rerervation_id, body);
 
-  res.json({ data: body });
+  return res.status(200).json({ data: body });
 });
 
 module.exports = route;

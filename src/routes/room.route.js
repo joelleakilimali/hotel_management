@@ -15,10 +15,10 @@ const route = express.Router();
 route.post("/", async (req, res) => {
   body = req.body;
   if (!body) {
-    res.send({ error: "Empty body", statusCode: 400 });
+    return res.status(400).send({ error: "Empty body" });
   }
   room = await createRoom(body);
-  res.json({ data: room, statusCode: 201 });
+  return res.status(201).json({ data: room });
 });
 /**
  * @description : print all the room
@@ -28,7 +28,7 @@ route.post("/", async (req, res) => {
 route.get("/", async (req, res) => {
   allroom = await getRoom();
   console.log(allroom);
-  res.json({ data: allroom, statusCode: 200 });
+  return res.status(200).json({ data: allroom, statusCode: 200 });
 });
 
 /**
@@ -39,7 +39,7 @@ route.get("/", async (req, res) => {
 route.get("/:id", async (req, res) => {
   room_id = req.params.id;
   const room = await getRoombyId(room_id);
-  res.json({ data: room });
+  return res.status(200).json({ data: room });
 });
 /**
  * @description update room
@@ -51,6 +51,6 @@ route.put("/:id", async (req, res) => {
   const body = req.body;
   const room_updated = updateroom(room_id, body);
 
-  res.json({ data: body });
+  return res.status(201).json({ data: body });
 });
 module.exports = route;
