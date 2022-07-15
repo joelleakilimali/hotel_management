@@ -1,10 +1,5 @@
 const express = require("express");
-const {
-  createUser,
-  getAllUsers,
-  getUserById,
-  updateUser,
-} = require("../services/user.service");
+const { findAllUsers } = require("../controllers/user.controller");
 
 const route = express.Router();
 
@@ -13,11 +8,7 @@ const route = express.Router();
  * @method GET
  * @url /api/users/
  */
-route.get("/", async (req, res) => {
-  allUser = await getAllUsers();
-  console.log(allUser);
-  return res.status(200).json({ data: allUser });
-});
+route.get("/", findAllUsers);
 
 /**
  * @description create usr
@@ -31,6 +22,13 @@ route.post("/", async (req, res) => {
   }
   if (!body.email) {
     return res.status(400).send({ error: "Email is required" });
+  }
+
+  email = body.email;
+
+  const emailFormat = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+  if (!email.match(emailFormat)) {
+    return res.status(400).send({ error: "Invalid email" });
   }
   user = await createUser(body);
   return res.status(201).json({ data: user });
