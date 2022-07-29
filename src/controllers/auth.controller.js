@@ -7,7 +7,7 @@ const register = async (req, res) => {
   if (!body) {
     return res.status(400).json({ error: "Empty body" });
   }
-  if (!body.email && !body.password) {
+  if (!body.email || !body.password) {
     return res.status(400).json({ error: "Email and password are required" });
   }
 

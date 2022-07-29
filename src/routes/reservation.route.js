@@ -1,58 +1,69 @@
 const express = require("express");
-const route = express.Router();
 const {
-  createReservation,
-  getRoom_reserved,
-  getRoom_reservedbyId,
-  update_a_reservation,
-} = require("../services/reservation.service");
+  makeReservation,
+  printReservation,
+  printReservationById,
+  update_Reservation,
+  cancelReservation,
+  getReservationByCustomerId,
+  findReservationByDateRange,
+  findtReservationMadeInDateRange,
+} = require("../controllers/reservation.controllers");
+const route = express.Router();
 
 /**
- * @description: creation of a room
+ * @description: creation of a reservation
  * @method POST
  * @URL api/room
  */
-route.post("/", async (req, res) => {
-  body = req.body;
-  if (!body) {
-    return res.status(400).send({ error: "Empty body" });
-  }
-  room = await createReservation(body);
-  res.json({ data: room, statusCode: 201 });
-});
+route.post("/", makeReservation);
 
 /**
- * @description : print all the room
+ * @description : print all resrvations
  * @method : GET
  * @url api/room
  */
-route.get("/", async (req, res) => {
-  allroom = await getRoom_reserved();
-  console.log(allroom);
-  return res.status(200).json({ data: allroom, statusCode: 200 });
-});
+route.get("/", printReservation);
 
 /**
- * @description get room by id
+ * @description get reservationby id
  * @method GET
  * @url /api/reservation/
  */
-route.get("/:id", async (req, res) => {
-  room_id = req.params.id;
-  const room = await getRoom_reservedbyId(room_id);
-  return res.status(200).json({ data: room });
-});
+route.get("/:id", printReservationById);
 /**
  * @description update a reservation
  * @method put
  * @url /app/reservation/
  */
-route.put("/:id", async (req, res) => {
-  rerervation_id = req.params.id;
-  const body = req.body;
-  const room_updated = update_a_reservation(rerervation_id, body);
+route.put("/:id", update_Reservation);
 
-  return res.status(200).json({ data: body });
-});
+/**
+ * @description cancel a reservation
+ * @method post
+ * @url/app/reservation/cancel
+ */
+
+route.post("/cancel", cancelReservation);
+
+/**
+ * @description get reservation list of a customer
+ * @method post
+ * @url/app/reservation/list
+ */
+route.get("/list/:customerId", getReservationByCustomerId);
+
+/**
+ * @description get reservations within a giving range
+ * @method post
+ * @url /app/reservation/list/dates/ceremonie
+ */
+route.get("/list/dates/ceremonie", findReservationByDateRange);
+
+/* @description get reservations within a giving range
+ * @method post
+ * @url /app/reservation/list/dates/madeDate
+ */
+route.post("/list/dates/madeDate", findtReservationMadeInDateRange);
 
 module.exports = route;

@@ -10,5 +10,7 @@ const schema = new Schema({
   },
   address: { type: Object, required: false },
   owner: { type: Schema.Types.ObjectId, ref: "User", required: false },
+  reserved: { type: Boolean, required: false, default: false },
+  price: { type: Number, required: false },
 });
 module.exports = mongoose.model("Room", schema);

@@ -9,13 +9,14 @@ const getRoom = async () => {
 const getRoombyId = async (id) => {
   return await Room.findById(id);
 };
+
 const updateRoom = async (id) => {
   return await Room.findById(id);
 };
 const updateroom = async (id, body) => {
   const filter = { _id: id };
   const update = body;
-  return await User.findOneAndUpdate(filter, update);
+  return await Room.findOneAndUpdate(filter, update);
 };
 
 module.exports = {

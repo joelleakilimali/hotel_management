@@ -20,7 +20,7 @@ mongoose
 
 app.use(express.json());
 app.use("/api/users", securedRoute, userRoute);
-app.use("/api/rooms", securedRoute, roomRoute);
-app.use("/api/reservations", securedRoute, reservedRoom);
+app.use("/api/rooms", roomRoute);
+app.use("/api/reservations", reservedRoom);
 app.use("/api/auth", authRoute);
 module.exports = { app };
